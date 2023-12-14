@@ -85,7 +85,7 @@ const submit = async () => {
 
     isLoading.value = false
     outcome.value = res.issue[0].total
-    console.log(res);
+
   } catch (error) {
     console.log(error);
   }
@@ -107,13 +107,15 @@ const submit = async () => {
   div {
     padding: 0.25em 1.5em;
     aspect-ratio: 1;
-    background-color: #ddd;
+    background-color: #f6f6f6;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 2.5rem;
     font-weight: bold;
+    color: #5865f2;
+    border: 1px dashed #ddd;
   }
 
 
