@@ -29,7 +29,7 @@
           <div class="output">
             <h3 class="mb-2">OUTCOME </h3>
             <div>
-              333333
+              {{ outcome }}
             </div>
           </div>
         </v-col>
@@ -68,11 +68,13 @@ const diseaseCodes = [
 const selectedDisease = ref()
 const selectedYear = ref()
 const isLoading = ref(false)
+const outcome = ref('--')
 
 
 const submit = async () => {
 
   isLoading.value = true
+  outcome.value = '--'
   try {
     const res = await fetch(`https://gosh-synth-fhir.azurehealthcareapis.com/Condition?onset-date=${selectedYear.value}&code=${selectedDisease.value}&_summary=count`, {
       method: 'GET',
@@ -82,6 +84,7 @@ const submit = async () => {
     })
 
     isLoading.value = false
+    outcome.value = res.issue[0].total
     console.log(res);
   } catch (error) {
     console.log(error);
