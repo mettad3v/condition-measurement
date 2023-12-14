@@ -84,7 +84,7 @@ const submit = async () => {
     })
 
     isLoading.value = false
-    outcome.value = res.issue[0].total
+    outcome.value = res.total
 
   } catch (error) {
     console.log(error);
