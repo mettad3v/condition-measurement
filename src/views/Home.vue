@@ -10,10 +10,12 @@
           <v-select label="Select Year" :items="yearList" v-model="selectedYear"></v-select>
         </v-col>
         <v-col>
-          <v-select label="Disease Condition" :items="diseaseCodes" v-model="selectedDisease"></v-select>
+          <v-select label="Disease Condition" :items="diseaseCodes" item-title="name" item-value="code"
+            v-model="selectedDisease"></v-select>
         </v-col>
         <v-col cols="auto">
-          <v-btn @click="submit" :loading="isLoading" color="#5865f2" class="d-inline" size="x-large">
+          <v-btn :disabled="!isDisabled" @click="submit" :loading="isLoading" ripple color="#5865f2" class="d-inline"
+            size="x-large">
             Submit
           </v-btn>
         </v-col>
@@ -40,37 +42,61 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import axios from 'axios'
 
 const yearList = [
-  1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
-  2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
-  2010, 2011, 2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019,
-  2020, 2021, 2022, 2023
-];
-
-const diseaseCodes = [
-  10509002,
-  65363002,
-  43878008,
-  65966004,
-  232353008,
-  10509002,
-  65363002,
-  43878008,
-  65966004,
-  232353008,
-  446096008,
-  284551006,
-  44465007,
+  2023, 2022, 2021, 2020, 2019, 2018, 2017, 2016, 2015, 2014,
+  2013, 2012, 2011, 2010, 2009, 2008, 2007, 2006, 2005, 2004,
+  2003, 2002, 2001, 2000, 1999, 1998, 1997, 1996, 1995, 1994,
+  1993, 1992, 1991, 1990
 ]
 
-const selectedDisease = ref()
-const selectedYear = ref()
+
+const diseaseCodes = [
+  {
+    code: 10509002,
+    name: "Acute bronchitis (disorder)"
+  },
+  {
+    code: 65363002,
+    name: "Otitis media"
+  },
+  {
+    code: 43878008,
+    name: "Streptococcal sore throat (disorder)"
+  },
+  {
+    code: 65966004,
+    name: "Fracture of forearm"
+  },
+  {
+    code: 232353008,
+    name: "Perennial allergic rhinitis with seasonal variation"
+  },
+  {
+    code: 446096008,
+    name: "Perennial allergic rhinitis"
+  },
+  {
+    code: 284551006,
+    name: "Laceration of foot"
+  },
+  {
+    code: 44465007,
+    name: "Sprain of ankle"
+  },
+]
+
+
+const selectedDisease = ref('')
+const selectedYear = ref('')
 const isLoading = ref(false)
 const outcome = ref('--')
 
+const isDisabled = computed(() => {
+  return selectedDisease.value !== '' && selectedYear.value !== '';
+});
 
 const submit = async () => {
 
