@@ -23,7 +23,13 @@
 
 
 
+
       </v-row>
+
+      <v-snackbar color="red" v-model="snackbar" timeout="2000">
+        Internal error... please try again later
+
+      </v-snackbar>
 
 
       <v-row>
@@ -51,6 +57,7 @@ const yearList = [
   2003, 2002, 2001, 2000, 1999, 1998, 1997, 1996, 1995, 1994,
   1993, 1992, 1991, 1990
 ]
+const snackbar = ref(false)
 
 
 const diseaseCodes = [
@@ -116,6 +123,7 @@ const submit = async () => {
 
   } catch (error) {
     isLoading.value = false
+    snackbar.value = true
     outcome.value = '--'
 
     console.log(error);
