@@ -41,6 +41,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import axios from 'axios'
 
 const yearList = [
   1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
@@ -76,17 +77,21 @@ const submit = async () => {
   isLoading.value = true
   outcome.value = '--'
   try {
-    const res = await fetch(`https://gosh-synth-fhir.azurehealthcareapis.com/Condition?onset-date=${selectedYear.value}&code=${selectedDisease.value}&_summary=count`, {
-      method: 'GET',
+    const res = await axios.get(`https://gosh-synth-fhir.azurehealthcareapis.com/Condition?onset-date=${selectedYear.value}&code=${selectedDisease.value}&_summary=count`, {
       headers: {
-        'Authorization': `Bearer ${import.meta.env.VITE_TOKEN}`
+        'Authorization': `Bearer ${import.meta.env.VITE_TOKEN}`,
+        'Content-Type': 'application/fhir+json'
       }
     })
 
     isLoading.value = false
-    outcome.value = res.total
+    outcome.value = res.data.total
+    console.log(res);
 
   } catch (error) {
+    isLoading.value = false
+    outcome.value = '--'
+
     console.log(error);
   }
 }
